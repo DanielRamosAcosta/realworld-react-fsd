@@ -5,21 +5,18 @@ import { User, userForIndex } from './fixtures/users';
 const getParallelIndex = () => test.info().parallelIndex;
 
 export const test = base.extend<
-  { app: ReturnType<typeof createApp> },
-  { workerStorageState: string; user: User }
+  { app: ReturnType<typeof createApp>; user: User },
+  { workerStorageState: string }
 >({
   app: async ({ page }, use) => {
     await use(createApp(page));
   },
   storageState: ({ workerStorageState }, use) => use(workerStorageState),
-  user: [
-    async ({ browser: _ }, use) => {
-      const id = getParallelIndex();
-      const user = userForIndex(id);
-      await use(user);
-    },
-    { scope: 'worker' },
-  ],
+  user: async ({}, use) => {
+    const id = getParallelIndex();
+    const user = userForIndex(id);
+    await use(user);
+  },
   workerStorageState: [
     async ({ browser }, use) => {
       const id = getParallelIndex();
