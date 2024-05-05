@@ -14,7 +14,7 @@ test('has title', async ({ page }) => {
   await page.getByRole('button', { name: /Sign up/i }).click();
 
   await expect(
-    page.getByRole('button', { name: /Alice's Articles/i }),
+    page.getByRole('button', { name: /Alice1's Articles/i }),
   ).toBeVisible();
 });
 
