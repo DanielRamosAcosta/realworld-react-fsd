@@ -37,6 +37,7 @@ jobs:
           - 3000:3000
         options: >-
           --health-interval 10s
+          --health-timeout 20s
           --health-retries 5
     steps:
       - uses: actions/checkout@v4
