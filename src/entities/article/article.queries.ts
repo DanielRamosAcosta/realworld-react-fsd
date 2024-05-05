@@ -270,6 +270,7 @@ export function useDeleteArticleMutation(slug: string) {
     mutationKey: keys.deleteArticle(slug),
     mutationFn: deleteArticleMutation,
     onSuccess: () => {
+      console.log("I'm mutaaaating");
       articleService.removeCache(slug);
       navigate(pathKeys.home());
     },
