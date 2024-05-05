@@ -20,5 +20,5 @@ test('comment', async ({ browser }) => {
   });
 
   await alice.reload();
-  await alice.expectToSee(comment.body);
+  await alice.expectToSee(comment.body + 'error');
 });
