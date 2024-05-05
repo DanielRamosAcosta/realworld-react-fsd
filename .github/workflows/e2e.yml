@@ -45,12 +45,6 @@ jobs:
         with:
           node-version: 22.x
       - run: npm ci
-      - run: node clean.js
-        env:
-          DB_PORT: 3306
-          DB_USERNAME: root
-          DB_PASSWORD: password
-          DB_DATABASE: conduit
       - run: npx playwright install --with-deps
       - run: npx playwright test
       - uses: actions/upload-artifact@v4
