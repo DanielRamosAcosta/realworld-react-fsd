@@ -1,13 +1,8 @@
 import { test as base } from '@playwright/test';
 import { createApp } from './pom/createApp';
-import fs from 'fs';
-import { userFromWorker } from './fixtures/users';
+import { User, userForIndex } from './fixtures/users';
 
-type User = {
-  name: string;
-  email: string;
-  password: string;
-};
+const getParallelIndex = () => test.info().parallelIndex;
 
 export const test = base.extend<
   { app: ReturnType<typeof createApp> },
@@ -19,33 +14,20 @@ export const test = base.extend<
   storageState: ({ workerStorageState }, use) => use(workerStorageState),
   user: [
     async ({ browser: _ }, use) => {
-      const id = test.info().parallelIndex;
-      const user = userFromWorker(id);
+      const id = getParallelIndex();
+      const user = userForIndex(id);
       await use(user);
     },
     { scope: 'worker' },
   ],
   workerStorageState: [
     async ({ browser }, use) => {
-      // Use parallelIndex as a unique identifier for each worker.
-      const id = test.info().parallelIndex;
-      const user = userFromWorker(id);
-      const path = `playwright/.auth/${id}.json`;
-
-      if (fs.existsSync(path)) {
-        await use(path);
-        return;
-      }
-
-      const page = await browser.newPage({
-        storageState: undefined,
-        baseURL: 'http://localhost:5173',
-      });
-      const app = createApp(page);
+      const id = getParallelIndex();
+      const user = userForIndex(id);
+      const app = await user.instance(browser, 'http://localhost:5173');
       await app.utils.loginOrSignUp(user);
-      await page.context().storageState({ path: user.path });
-      await page.close();
-      await use(path);
+      await app.page.context().storageState({ path: user.path });
+      await use(user.path);
     },
     { scope: 'worker' },
   ],

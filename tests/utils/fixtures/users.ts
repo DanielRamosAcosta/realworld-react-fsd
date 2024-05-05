@@ -2,14 +2,28 @@ import fs from 'fs';
 import { Browser } from '@playwright/test';
 import { createApp } from '../pom/createApp';
 
-async function createContext(browser: Browser, storageState: string) {
+export type User = {
+  name: string;
+  email: string;
+  password: string;
+  path: string;
+};
+
+async function createContext(
+  browser: Browser,
+  storageState: string,
+  baseURL?: string,
+) {
   let localstorage: string | undefined = undefined;
 
   if (fs.existsSync(storageState)) {
     localstorage = storageState;
   }
 
-  const context = await browser.newContext({ storageState: localstorage });
+  const context = await browser.newContext({
+    storageState: localstorage,
+    ...(baseURL ? { baseURL } : {}),
+  });
   const page = await context.newPage();
   return {
     ...createApp(page),
@@ -23,7 +37,8 @@ export const ALICE = {
   email: 'alice@example.com',
   password: 'password',
   path: 'playwright/.auth/alice.json',
-  instance: (browser: Browser) => createContext(browser, ALICE.path),
+  instance: (browser: Browser, baseURL?: string) =>
+    createContext(browser, ALICE.path, baseURL),
 };
 
 export const BOB = {
@@ -31,11 +46,12 @@ export const BOB = {
   email: 'bob@example.com',
   password: 'password',
   path: 'playwright/.auth/bob.json',
-  instance: (browser: Browser) => createContext(browser, BOB.path),
+  instance: (browser: Browser, baseURL?: string) =>
+    createContext(browser, BOB.path, baseURL),
 };
 
-export function userFromWorker(id: string | number): typeof ALICE {
-  const user = {
+export function userForIndex(id: string | number): typeof ALICE {
+  const user: User = {
     name: `Person ${id}`,
     email: `person+${id}@example.com`,
     password: '123456789',
@@ -43,8 +59,7 @@ export function userFromWorker(id: string | number): typeof ALICE {
   };
   return {
     ...user,
-    instance: async (_: Browser) => {
-      throw new Error('Unimplemented method userFromWorker#instance');
-    },
+    instance: (browser: Browser, baseURL?: string) =>
+      createContext(browser, user.path, baseURL),
   };
 }
