@@ -16,9 +16,9 @@ test('comment', async ({ browser }) => {
     await bob.home.navigate();
     await bob.home.seeGlobalFeed();
     await bob.home.clickArticle({ title: CATS_RULES.title });
-    await bob.article.writeComment();
+    await bob.article.writeComment({ body: comment.body });
   });
 
   await alice.reload();
-  await alice.expectToSee(comment.body + 'error');
+  await alice.expectToSee(comment.body);
 });
