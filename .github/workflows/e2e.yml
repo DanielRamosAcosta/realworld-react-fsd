@@ -18,6 +18,8 @@ jobs:
         env:
           MARIADB_ROOT_PASSWORD: password
           MARIADB_DATABASE: conduit
+        ports:
+          - 3306:3306
         options: >-
           --health-cmd "mysqladmin ping"
           --health-interval 10s
@@ -37,6 +39,7 @@ jobs:
         with:
           node-version: 22.x
       - run: npm ci
+      - run: node clean.js
       - run: npx playwright install --with-deps
       - run: npx playwright test
       - uses: actions/upload-artifact@v4
