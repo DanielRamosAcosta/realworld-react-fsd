@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     services:
-      database:
+      db:
         image: mariadb:lts
         env:
           MARIADB_ROOT_PASSWORD: password
