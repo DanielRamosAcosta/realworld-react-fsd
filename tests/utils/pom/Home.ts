@@ -1,4 +1,5 @@
 import { expect, Page } from '@playwright/test';
+import { CHRISTMAS_GIFTS } from '../fixtures/articles';
 
 export class Home {
   constructor(private readonly page: Page) {}
@@ -19,5 +20,13 @@ export class Home {
 
   private getSubtitle() {
     return this.page.getByText(/A place to share your knowledge/i);
+  }
+
+  async seeGlobalFeed() {
+    return this.page.getByRole('button', { name: /Global Feed/i }).click();
+  }
+
+  async clickArticle({ title = CHRISTMAS_GIFTS.title } = {}) {
+    await this.page.getByRole('link', { name: new RegExp(title) }).click();
   }
 }

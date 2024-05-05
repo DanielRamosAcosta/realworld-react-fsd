@@ -1,12 +1,26 @@
 import { test as setup } from './utils/test';
-import { cleandb } from './cleandb';
+import { ALICE, BOB } from './utils/fixtures/users';
+import { createApp } from './utils/pom/createApp';
+import { clean } from './utils/clean';
 
-const authFile = 'playwright/.auth/user.json';
+setup.beforeAll(clean);
 
-setup('authenticate', async ({ page, app }) => {
-  await cleandb({ removeUsers: true });
-  await app.signUp.navigate();
-  await app.signUp.fillSignUp();
-  await app.profile.expectToBeVisible();
-  await page.context().storageState({ path: authFile });
+setup('setup alice', async ({ browser }) => {
+  const page = await browser.newPage({
+    storageState: undefined,
+    baseURL: 'http://localhost:5173',
+  });
+  const app = createApp(page);
+  await app.utils.loginOrSignUp(ALICE);
+  await page.context().storageState({ path: ALICE.path });
+});
+
+setup('setup bob', async ({ browser }) => {
+  const page = await browser.newPage({
+    storageState: undefined,
+    baseURL: 'http://localhost:5173',
+  });
+  const app = createApp(page);
+  await app.utils.loginOrSignUp(BOB);
+  await page.context().storageState({ path: BOB.path });
 });

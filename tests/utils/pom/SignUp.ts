@@ -4,11 +4,11 @@ import { ALICE } from '../fixtures/users';
 export class SignUp {
   constructor(private readonly page: Page) {}
 
-  async navigate() {
-    await this.page.goto('/register');
+  async navigate({ url = '/register' } = {}) {
+    await this.page.goto(url);
   }
 
-  async fillSignUp({
+  async fillAndSignUp({
     name = ALICE.name,
     email = ALICE.email,
     password = ALICE.password,
@@ -17,5 +17,6 @@ export class SignUp {
     await this.page.getByPlaceholder('Email').fill(email);
     await this.page.getByPlaceholder('Password').fill(password);
     await this.page.getByRole('button', { name: /Sign up/i }).click();
+    await this.page.waitForURL(/profile/i);
   }
 }

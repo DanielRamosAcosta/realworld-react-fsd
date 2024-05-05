@@ -1,13 +1,7 @@
-const seed =
-  (process.env.TEST_WORKER_INDEX ?? 'x').toString() +
-  (process.env.TEST_PARALLEL_INDEX ?? 'y').toString();
-
-const str = (str: string): string => `${seed} ${str}`;
-
 export const CHRISTMAS_GIFTS = {
-  title: str('5 Useful Christmas Gifts Perfect for a Cat Owner'),
-  description: str('Some ideas for last minutes Christmas gifts'),
-  body: str(`As a proud cat owner, I spoil my cats by buying them expensive food and toys).
+  title: '5 Useful Christmas Gifts Perfect for a Cat Owner',
+  description: 'Some ideas for last minutes Christmas gifts',
+  body: `As a proud cat owner, I spoil my cats by buying them expensive food and toys).
 
 There is always something missing, no matter how many times I go to the pet store.
 
@@ -20,6 +14,16 @@ Cats love boxes, but they love them even more if you put inside them a soft cush
 
 There are also beds you can hang to the radiator for cats sensitive to cold temperatures.
 
-My cats wander outside, so I wash their blankets often because they get filthy fast. Sometimes I feel like I don’t have enough blankets for my five cats, so I can’t help buying more during sales.`),
-  tags: str('car christmas gifts'),
+My cats wander outside, so I wash their blankets often because they get filthy fast. Sometimes I feel like I don’t have enough blankets for my five cats, so I can’t help buying more during sales.`,
+  tags: 'car, christmas, gifts',
+};
+
+export const CATS_RULES = {
+  title: 'Top reasons why cat rules, the last one will surprise you',
+  description: 'Top reasons why cat rules, the last one will surprise you',
+  body: `As a proud cat owner, I spoil my cats by buying them expensive food and toys).
+
+I dare you to name one thing cuter than a cat’s toe beans. They’re soft and tiny, and if your cat is comfortable enough, you can even hold them. And their bellies! If a cat shows you its belly, that means it trusts you. What’s better than knowing you’ve earned the trust of your pet?
+`,
+  tags: 'cats, pets, amazing',
 };

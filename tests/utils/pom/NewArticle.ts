@@ -1,12 +1,8 @@
-import { Page, expect } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import { CHRISTMAS_GIFTS } from '../fixtures/articles';
-import { Article } from './Article';
 
 export class NewArticle {
-  constructor(
-    private readonly page: Page,
-    private readonly article: Article,
-  ) {}
+  constructor(private readonly page: Page) {}
 
   async navigate() {
     await this.page.goto('/');
@@ -26,7 +22,7 @@ export class NewArticle {
     await this.page.getByPlaceholder(/Write your article/i).fill(body);
     await this.page.getByPlaceholder(/Enter tags/i).fill(tags);
     await this.page.getByRole('button', { name: /Publish Article/i }).click();
-    await this.article.expectToBeVisible({ title, body });
+    await this.page.waitForURL(/article\/.*/);
   }
 
   private getTitleInput() {
