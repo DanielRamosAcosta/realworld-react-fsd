@@ -3,10 +3,10 @@ import mariadb from 'mariadb';
 export async function cleandb() {
   const connection = await mariadb.createConnection({
     host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_PORT || 'root',
-    password: process.env.DB_USERNAME || 'password',
-    database: process.env.DB_PASSWORD || 'conduit',
-    port: parseInt(process.env.DB_DATABASE || '3306'),
+    user: process.env.DB_USERNAME || 'root',
+    password: process.env.DB_PASSWORD || 'password',
+    database: process.env.DB_DATABASE || 'conduit',
+    port: parseInt(process.env.DB_PORT || '3306'),
   });
 
   await connection.beginTransaction();
