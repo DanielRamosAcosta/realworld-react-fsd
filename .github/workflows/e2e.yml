@@ -35,6 +35,9 @@ jobs:
           DB_DATABASE: conduit
         ports:
           - 3000:3000
+        options: >-
+          --health-interval 10s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
