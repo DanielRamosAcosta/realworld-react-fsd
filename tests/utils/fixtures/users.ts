@@ -1,8 +1,15 @@
+import fs from 'fs';
 import { Browser } from '@playwright/test';
 import { createApp } from '../pom/createApp';
 
 async function createContext(browser: Browser, storageState: string) {
-  const context = await browser.newContext({ storageState });
+  let localstorage: string | undefined = undefined;
+
+  if (fs.existsSync(storageState)) {
+    localstorage = storageState;
+  }
+
+  const context = await browser.newContext({ storageState: localstorage });
   const page = await context.newPage();
   return {
     ...createApp(page),
