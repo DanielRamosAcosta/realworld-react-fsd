@@ -20,11 +20,6 @@ jobs:
           MARIADB_DATABASE: conduit
         ports:
           - 3306:3306
-        options: >-
-          --health-cmd "mysqladmin ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
       api:
         image: ghcr.io/danielramosacosta/nestjs-realworld-example-app:latest
         env:
@@ -33,6 +28,8 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: password
           DB_DATABASE: conduit
+        ports:
+          - 3000:3000
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -40,6 +37,12 @@ jobs:
           node-version: 22.x
       - run: npm ci
       - run: node clean.js
+        env:
+          DB_HOST: db
+          DB_PORT: 3306
+          DB_USERNAME: root
+          DB_PASSWORD: password
+          DB_DATABASE: conduit
       - run: npx playwright install --with-deps
       - run: npx playwright test
       - uses: actions/upload-artifact@v4
@@ -48,3 +51,9 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+        env:
+          DB_HOST: db
+          DB_PORT: 3306
+          DB_USERNAME: root
+          DB_PASSWORD: password
+          DB_DATABASE: conduit

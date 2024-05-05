@@ -1,11 +1,11 @@
 import mariadb from 'mariadb';
 
 const connection = await mariadb.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'conduit',
-  port: 3306,
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_PORT || 'root',
+  password: process.env.DB_USERNAME || 'password',
+  database: process.env.DB_PASSWORD || 'conduit',
+  port: parseInt(process.env.DB_DATABASE || '3306'),
 });
 
 await connection.beginTransaction();

@@ -8,10 +8,6 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: password
       MARIADB_DATABASE: conduit
-    healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
-      timeout: 2s
-      retries: 10
 
   api:
     image: ghcr.io/danielramosacosta/nestjs-realworld-example-app:latest
@@ -21,8 +17,5 @@ services:
       DB_USERNAME: root
       DB_PASSWORD: password
       DB_DATABASE: conduit
-    depends_on:
-      db:
-        condition: service_healthy
     ports:
       - '3000:3000'
