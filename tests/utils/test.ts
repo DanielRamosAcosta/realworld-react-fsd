@@ -1,4 +1,5 @@
 import { test as base } from '@playwright/test';
+export * from '@playwright/test';
 import { createApp } from './pom/createApp';
 import { User, userForIndex } from './fixtures/users';
 
@@ -25,6 +26,7 @@ export const test = base.extend<
       await app.utils.loginOrSignUp(user);
       await app.page.context().storageState({ path: user.path });
       await use(user.path);
+      await app.context.close();
     },
     { scope: 'worker' },
   ],

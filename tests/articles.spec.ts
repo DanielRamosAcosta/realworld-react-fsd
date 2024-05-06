@@ -8,7 +8,7 @@ test('delete article', async ({ app, user }) => {
 
   await test.step('see article in profile', async () => {
     await app.profile.navigate(user);
-    await app.profile.clickArticle();
+    await app.profile.clickArticle({ name: 'Wharever' });
   });
 
   await test.step('delete it', async () => {
