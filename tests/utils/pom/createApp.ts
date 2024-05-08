@@ -12,7 +12,7 @@ export function createApp(page: Page) {
   const home = new Home(page);
   const article = new Article(page);
   const settings = new Settings(page);
-  const profile = new Profile(page);
+  const profile = new Profile(page, home);
   const newArticle = new NewArticle(page);
   const signUp = new SignUp(page);
   const signIn = new SignIn(page);

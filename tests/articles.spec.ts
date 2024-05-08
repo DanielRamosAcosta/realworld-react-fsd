@@ -6,16 +6,20 @@ test('delete article', async ({ app, user }) => {
     await app.newArticle.writeArticle();
   });
 
+  await test.step('assert content is ok', async () => {
+    await app.article.expectToBeVisible();
+  });
+
   await test.step('see article in profile', async () => {
     await app.profile.navigate(user);
-    await app.profile.clickArticle({ name: 'Wharever' });
+    await app.profile.clickArticle();
   });
 
   await test.step('delete it', async () => {
     await app.article.delete();
   });
 
-  await test.step('disappears from profile', async () => {
+  await test.step('assert it disappears from profile', async () => {
     await app.profile.navigate(user);
     await app.profile.assertDoesNotHaveArticle();
   });

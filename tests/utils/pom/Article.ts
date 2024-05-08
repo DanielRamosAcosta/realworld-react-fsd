@@ -18,6 +18,7 @@ export class Article {
       .getByRole('button', { name: /Delete Article/i })
       .first()
       .click();
+
     await this.page.waitForURL('/');
   }
 

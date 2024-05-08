@@ -1,5 +1,6 @@
 import { expect, Page } from '@playwright/test';
 import { CHRISTMAS_GIFTS } from '../fixtures/articles';
+import { ALICE } from '../fixtures/users';
 
 export class Home {
   constructor(private readonly page: Page) {}
@@ -28,5 +29,9 @@ export class Home {
 
   async clickArticle({ title = CHRISTMAS_GIFTS.title } = {}) {
     await this.page.getByRole('link', { name: new RegExp(title) }).click();
+  }
+
+  async clickMyProfile({ name = ALICE.name } = {}) {
+    await this.page.getByRole('link', { name: new RegExp(name, 'i') }).click();
   }
 }
