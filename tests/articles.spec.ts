@@ -21,6 +21,6 @@ test('delete article', async ({ app, user }) => {
 
   await test.step('assert it disappears from profile', async () => {
     await app.profile.navigate(user);
-    await app.profile.assertDoesNotHaveArticle();
+    await app.profile.assertDoesNotHaveArticle({ name: 'foo' });
   });
 });
