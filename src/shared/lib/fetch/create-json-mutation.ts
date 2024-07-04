@@ -60,7 +60,7 @@ export async function createJsonMutation<
   };
 }) {
   const data = await createApiRequest({ request: config.request });
-
+  debugger;
   if (config?.response?.contract && !config.response.contract.isData(data)) {
     throw invalidDataError({
       validationErrors: config.response.contract.getErrorMessages(data),
